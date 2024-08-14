@@ -3,7 +3,7 @@ import cardStyles from "./index.module.css";
 
 export const ItemCard = ({ isCart, item }) => {
   console.log("item => ", item);
-  const { title, price, image, id } = item;
+  const { title, price, image, id, quantity } = item;
   return (
     <div className={cardStyles.cardContainer}>
       <img
@@ -24,7 +24,7 @@ export const ItemCard = ({ isCart, item }) => {
                 alt="decrease"
               />
             </Button>
-            <p>20</p>
+            <p>{quantity}</p>
             <Button>
               <img
                 className={cardStyles.btnImage}

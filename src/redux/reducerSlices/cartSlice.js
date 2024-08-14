@@ -1,4 +1,24 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { db } from "../../config/firestore.config";
+import { collection, getDocs } from "firebase/firestore";
+
+export const getInitialCartItems = createAsyncThunk(
+  "cart/getInitialCart",
+  async (arg, thunkApi) => {
+    try {
+      const cartItems = [];
+      const querySnapshot = await getDocs(collection(db, "cart"));
+      querySnapshot.forEach((doc) => {
+        console.log(doc.id, " => ", doc.data());
+        cartItems.push({ id: doc.id, ...doc.data() });
+      });
+
+      thunkApi.dispatch(cartItems);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
 
 const INITIAL_STATE = { cart: [] };
 
