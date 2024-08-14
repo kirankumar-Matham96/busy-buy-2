@@ -1,5 +1,9 @@
+import { ItemsContainer } from "../../components/ItemsContainer";
 
 export const Home = () => {
-    return <div>Home</div>;
-  };
-  
+  return (
+    <div>
+      <ItemsContainer />
+    </div>
+  );
+};

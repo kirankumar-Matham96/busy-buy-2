@@ -1,0 +1,10 @@
+.bgContainer {
+  border: 1px solid red;
+  min-height: 88vh;
+  width: 60vw;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 31%);
+  grid-template-rows: repeat(auto-fill, 1fr);
+  gap: 2rem;
+}

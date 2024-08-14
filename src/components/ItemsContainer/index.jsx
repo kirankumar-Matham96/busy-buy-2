@@ -1,5 +1,10 @@
+import { ItemCard } from "../ItemCard";
+import itemsContainerStyles from "./index.module.css";
 
-export const ItemContainer = () => {
-    return <div>ItemContainer</div>;
-  };
-  
+export const ItemsContainer = () => {
+  return (
+    <div className={itemsContainerStyles.bgContainer}>
+      <ItemCard />
+    </div>
+  );
+};
