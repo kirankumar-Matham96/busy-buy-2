@@ -1,0 +1,21 @@
+.bgContainer {
+  border: 1px solid red;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 18rem;
+  padding: 0 0 1.5rem;
+}
+
+.priceFilter {
+  text-align: center;
+}
+.categoryFilter {
+  text-align: center;
+}
+
+.categories {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
