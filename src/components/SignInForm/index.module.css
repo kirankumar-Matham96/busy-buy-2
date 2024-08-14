@@ -1,0 +1,35 @@
+.bgContainer {
+  margin: 5rem auto 0;
+  width: 20rem;
+}
+.heading {
+  line-height: 0;
+}
+.input {
+  width: 89.5%;
+  outline: none;
+  border: 1px solid cyan;
+  background-color: lightcyan;
+  font-size: 1.3rem;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+.btn {
+  margin-top: 1rem;
+}
+.link {
+  line-height: 0;
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+  color: gray;
+}
+
+.link:hover {
+  color: rgb(0, 0, 0);
+  font-weight: 500;
+}

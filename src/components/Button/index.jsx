@@ -7,6 +7,8 @@ export const Button = (props) => {
     font-size: ${(props) => (props.fontSize ? props.fontSize : "1rem")};
     border-radius: ${(props) => (props.radius ? props.radius : "10px")};
     padding: ${(props) => (props.padding ? props.padding : "1rem")};
+    width: ${(props) => (props.width ? props.width : "auto")};
+    height: ${(props) => (props.height ? props.height : "auto")};
     border: none;
     cursor: pointer;
   `;
