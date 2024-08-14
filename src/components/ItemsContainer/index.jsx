@@ -5,6 +5,9 @@ export const ItemsContainer = () => {
   return (
     <div className={itemsContainerStyles.bgContainer}>
       <ItemCard />
+      <ItemCard />
+      <ItemCard />
+      <ItemCard />
     </div>
   );
 };

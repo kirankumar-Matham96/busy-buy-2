@@ -1,0 +1,21 @@
+.cardContainer {
+  border: 1px solid red;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+.image {
+  width: 100%;
+  border: 1px solid green;
+}
+.description {
+  font-size: 1.3rem;
+  color: gray;
+  line-height: 0%;
+}
+.price {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #224957;
+  line-height: 0%;
+}
