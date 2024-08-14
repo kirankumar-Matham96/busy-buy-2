@@ -1,0 +1,30 @@
+.navContainer {
+  border: 1px solid red;
+  padding: 1rem 10rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.navBrand {
+}
+.navLinks {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  list-style-type: none;
+  width: 35%;
+}
+.navLink {
+  display: flex;
+  align-items: center;
+  width: 9rem;
+}
+.navLink img {
+  width: 3rem;
+  margin-right: 0.5rem;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
