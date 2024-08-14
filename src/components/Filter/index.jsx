@@ -12,19 +12,19 @@ export const Filter = () => {
       <div className={filterStyles.categoryFilter}>
         <h3>Category</h3>
         <div className={filterStyles.categories}>
-          <label htmlFOR="Mens">
+          <label htmlFor="Mens">
             <input type="checkbox" id="Mens" />
             &nbsp; Mens Wear
           </label>
-          <label htmlFOR="Womens">
+          <label htmlFor="Womens">
             <input type="checkbox" id="Womens" />
             &nbsp; Womens Wear
           </label>
-          <label htmlFOR="Electronincs">
+          <label htmlFor="Electronincs">
             <input type="checkbox" id="Electronincs" />
             &nbsp; Electronics
           </label>
-          <label htmlFOR="Jwelery">
+          <label htmlFor="Jwelery">
             <input type="checkbox" id="Jwelery" />
             &nbsp; Jwelery
           </label>

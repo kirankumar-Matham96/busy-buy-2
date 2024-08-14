@@ -1,0 +1,7 @@
+.searchBox {
+  padding: 1.3rem 1.5rem;
+  border: 1px solid red;
+  outline: none;
+  border-radius: 10px;
+  font-size: 1rem;
+}

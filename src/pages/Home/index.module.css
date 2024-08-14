@@ -1,5 +1,16 @@
 .bgContainer {
+  display: flex;
+  flex-direction: column;
   position: relative;
+}
+
+.searchContainer {
+  border: 1px solid green;
+  margin: 1rem auto;
+  width: 73vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .filterContainer {
