@@ -14,25 +14,32 @@ function App() {
   return (
     <BrowserRouter>
       <NavBar />
-      <Routes>
-        <Route exact path="/" element={<Home />} errorElement={<ErrorPage />} />
-        <Route
-          path="/signin"
-          element={<SignIn />}
-          errorElement={<ErrorPage />}
-        />
-        <Route
-          path="/signup"
-          element={<SignUp />}
-          errorElement={<ErrorPage />}
-        />
-        <Route path="/cart" element={<Cart />} errorElement={<ErrorPage />} />
-        <Route
-          path="/orders"
-          element={<Orders />}
-          errorElement={<ErrorPage />}
-        />
-      </Routes>
+      <div className="pageContainer">
+        <Routes>
+          <Route
+            exact
+            path="/"
+            element={<Home />}
+            errorElement={<ErrorPage />}
+          />
+          <Route
+            path="/signin"
+            element={<SignIn />}
+            errorElement={<ErrorPage />}
+          />
+          <Route
+            path="/signup"
+            element={<SignUp />}
+            errorElement={<ErrorPage />}
+          />
+          <Route path="/cart" element={<Cart />} errorElement={<ErrorPage />} />
+          <Route
+            path="/orders"
+            element={<Orders />}
+            errorElement={<ErrorPage />}
+          />
+        </Routes>
+      </div>
     </BrowserRouter>
   );
 }

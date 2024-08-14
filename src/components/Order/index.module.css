@@ -1,0 +1,60 @@
+.h3 {
+  color: #224957;
+  margin: 2rem 0 1rem;
+  text-align: center;
+}
+.table {
+  border-collapse: collapse;
+}
+.tableHead {
+  border-collapse: collapse;
+}
+.row {
+  border-collapse: collapse;
+  height: 50px;
+}
+.row > th {
+  border-collapse: collapse;
+  background-color: #efefef;
+  min-width: 100px;
+  width: 20px;
+  border: 2px solid white;
+  border-bottom: 2px solid black;
+}
+thead tr th:first-child,
+tbody tr td:first-child {
+  width: 350px;
+}
+.data {
+  border: 2px solid white;
+  border-collapse: collapse;
+  background-color: #efefef;
+  min-width: 100px;
+  width: 200px;
+  text-align: center;
+}
+.spcData {
+  border-collapse: collapse;
+  background-color: #efefef;
+  min-width: 100px;
+  width: 200px;
+  text-align: center;
+}
+.totalPriceData {
+  border-collapse: collapse;
+  background-color: #efefef;
+  min-width: 100px;
+  width: 200px;
+  text-align: right;
+}
+.autoHeight {
+  height: calc(100% - 100px);
+}
+
+.totalPriceContainer {
+  text-align: right;
+}
+.noOrdersMessage {
+  color: rgb(1, 138, 201);
+  margin-top: 3rem;
+}
