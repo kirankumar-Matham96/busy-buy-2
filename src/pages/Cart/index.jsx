@@ -9,7 +9,7 @@ import cartStyles from "./index.module.css";
 import { useDispatch, useSelector } from "react-redux";
 
 export const Cart = () => {
-  const cart = useSelector(cartSelector);
+  const { cart } = useSelector(cartSelector);
   const dispatch = useDispatch();
 
   useEffect(() => {

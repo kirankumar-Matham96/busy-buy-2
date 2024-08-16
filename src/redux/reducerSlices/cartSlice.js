@@ -31,6 +31,7 @@ export const addToCart = createAsyncThunk(
   async (item, thunkApi) => {
     const state = thunkApi.getState();
     const { currentUser } = authSelector(state);
+    const { cart } = cartSelector(state);
 
     if (!currentUser || !currentUser.email) {
       return thunkApi.rejectWithValue("Please Login!");
@@ -63,7 +64,8 @@ export const addToCart = createAsyncThunk(
 
       // push the new cart data to db
       await setDoc(docRef, { cartItems: cartList });
-      return item;
+
+      return [...cart, item];
     } catch (error) {
       console.log(error);
       return thunkApi.rejectWithValue(error.message);
@@ -174,51 +176,12 @@ export const increaseQuantity = createAsyncThunk(
   }
 );
 
-const INITIAL_STATE = { cart: [], loading: false, error: null };
+const INITIAL_STATE = { cart: [], loading: false, error: null, totalPrice: 0 };
 
 const cartSlice = createSlice({
   name: "cart",
   initialState: INITIAL_STATE,
-  reducers: {
-    // initialLoad: (state, action) => {
-    //   state.cart = [...action.payload];
-    // },
-    // add: (state, action) => {
-    //   const existingItem = state.cart.find(
-    //     (item) => action.payload.id === item.id
-    //   );
-    //   if (existingItem) {
-    //     existingItem.quantity++;
-    //   } else {
-    //     state.cart.push({ ...action.payload, quantity: 1 });
-    //   }
-    // },
-    // remove: (state, action) => {
-    //   state.cart = state.cart.filter((item) => {
-    //     if (item.id !== action.payload) {
-    //       return item;
-    //     }
-    //   });
-    // },
-    // increase: (state, action) => {
-    //   state.cart = state.cart.map((item) => {
-    //     if (item.id === action.payload) {
-    //       item.quantity++;
-    //     }
-    //     return item;
-    //   });
-    // },
-    // decrease: (state, action) => {
-    //   state.cart = state.cart
-    //     .map((item) => {
-    //       if (item.id === action.payload) {
-    //         item.quantity--;
-    //       }
-    //       return item;
-    //     })
-    //     .filter((item) => item.quantity > 0);
-    // },
-  },
+  reducers: {},
   extraReducers: (builder) =>
     builder
       .addCase(getInitialCartItems.pending, (state) => {
@@ -226,53 +189,71 @@ const cartSlice = createSlice({
       })
       .addCase(getInitialCartItems.fulfilled, (state, action) => {
         state.loading = false;
-        state.cart = [...action.payload];
+        state.cart = action.payload || [];
+        state.totalPrice = state.cart.reduce(
+          (acc, item) => acc + item.price * item.quantity,
+          0
+        );
       })
       .addCase(getInitialCartItems.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
-      .addCase(addToCart.pending, (state, action) => {
+      .addCase(addToCart.pending, (state) => {
         state.loading = true;
       })
       .addCase(addToCart.fulfilled, (state, action) => {
         state.loading = false;
-        console.log("add to cart action => ", action);
-        console.log("add to cart action payload => ", action.payload);
-        state.cart = [...state.cart, action.payload];
+        state.cart = action.payload;
+        state.totalPrice = state.cart.reduce(
+          (acc, item) => acc + item.price * item.quantity,
+          0
+        );
       })
       .addCase(addToCart.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
-      .addCase(removeFromCart.pending, (state, action) => {
+      .addCase(removeFromCart.pending, (state) => {
         state.loading = true;
       })
       .addCase(removeFromCart.fulfilled, (state, action) => {
         state.loading = false;
-        state.cart = [...action.payload];
+        state.cart = action.payload;
+        state.totalPrice = state.cart.reduce(
+          (acc, item) => acc + item.price * item.quantity,
+          0
+        );
       })
       .addCase(removeFromCart.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
-      .addCase(increaseQuantity.pending, (state, action) => {
+      .addCase(increaseQuantity.pending, (state) => {
         state.loading = true;
       })
       .addCase(increaseQuantity.fulfilled, (state, action) => {
         state.loading = false;
-        state.cart = [...action.payload];
+        state.cart = action.payload;
+        state.totalPrice = state.cart.reduce(
+          (acc, item) => acc + item.price * item.quantity,
+          0
+        );
       })
       .addCase(increaseQuantity.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
-      .addCase(reduceQuantity.pending, (state, action) => {
+      .addCase(reduceQuantity.pending, (state) => {
         state.loading = true;
       })
       .addCase(reduceQuantity.fulfilled, (state, action) => {
         state.loading = false;
-        state.cart = [...action.payload];
+        state.cart = action.payload;
+        state.totalPrice = state.cart.reduce(
+          (acc, item) => acc + item.price * item.quantity,
+          0
+        );
       })
       .addCase(reduceQuantity.rejected, (state, action) => {
         state.loading = false;
@@ -283,4 +264,9 @@ const cartSlice = createSlice({
 export const cartReducer = cartSlice.reducer;
 export const { initialLoad, add, remove, increase, decrease } =
   cartSlice.actions;
-export const cartSelector = (state) => state.cartReducer.cart;
+export const cartSelector = (state) => ({
+  cart: state.cartReducer.cart,
+  totalPrice: state.cartReducer.totalPrice,
+  loading: state.cartReducer.loading,
+  error: state.cartReducer.error,
+});
