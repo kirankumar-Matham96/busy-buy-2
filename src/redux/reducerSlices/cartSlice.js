@@ -13,7 +13,7 @@ export const getInitialCartItems = createAsyncThunk(
         cartItems.push({ id: doc.id, ...doc.data() });
       });
 
-      thunkApi.dispatch(cartItems);
+      thunkApi.dispatch(initialLoad(cartItems));
     } catch (error) {
       console.log(error);
     }

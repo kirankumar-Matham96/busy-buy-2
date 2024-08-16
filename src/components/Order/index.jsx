@@ -6,8 +6,8 @@ export const Order = ({ order, formatDate }) => {
   return (
     <div className={orderStyles.orderContainer}>
       <h2 className={orderStyles.h3}>
-        Ordered On:
-        {order.timestamp && formatDate(timestamp.seconds)}
+        Ordered On:&nbsp;
+        {timestamp && formatDate(timestamp.seconds)}
       </h2>
       <table className={orderStyles.table}>
         <thead className={orderStyles.tableHead}>
