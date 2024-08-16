@@ -48,7 +48,6 @@ export const signin = createAsyncThunk(
         email,
         password
       );
-      console.log("signin userCredentials => ", userCredentials);
       return userCredentials.user;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
@@ -65,7 +64,6 @@ export const signup = createAsyncThunk(
         email,
         password
       );
-      console.log("signup credentials => ", userCredentials);
       return userCredentials.user;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);

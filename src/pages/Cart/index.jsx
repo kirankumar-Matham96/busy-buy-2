@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 export const Cart = () => {
   const cart = useSelector(cartSelector);
-  console.log("cart in page => ", cart);
   const dispatch = useDispatch();
 
   useEffect(() => {

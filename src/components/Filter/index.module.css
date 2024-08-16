@@ -19,3 +19,6 @@
   flex-direction: column;
   align-items: flex-start;
 }
+.categories > label {
+  text-transform: capitalize;
+}

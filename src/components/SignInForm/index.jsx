@@ -20,13 +20,11 @@ export const SignInForm = () => {
 
   const submitHandle = (e) => {
     e.preventDefault();
-    console.log(email, password);
     dispatch(signin({ email, password }));
   };
 
   return (
     <div className={loginStyles.bgContainer}>
-      {/* {console.log(loading, error, currentUser.email)} */}
       <h1 className={loginStyles.heading}>Sign In</h1>
       <form onSubmit={submitHandle}>
         <input

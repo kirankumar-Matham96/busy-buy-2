@@ -64,43 +64,12 @@ export const addToCart = createAsyncThunk(
       // push the new cart data to db
       const resp = await setDoc(docRef, { cartItems: cartList });
 
-      console.log("addToCart resp => ", resp);
     } catch (error) {
       console.log(error);
       return thunkApi.rejectWithValue(error.message);
     }
   }
 );
-
-// export const removeFromCart = createAsyncThunk(
-//   "cart/removeFromCart",
-//   async (id, thunkApi) => {
-//     const state = thunkApi.getState();
-//     const { currentUser } = authSelector(state);
-
-//     if (!currentUser || !currentUser.email) {
-//       return thunkApi.rejectWithValue("Please Login!");
-//     }
-
-//     try {
-//       const docRef = doc(db, "cart", currentUser.email);
-//       const cartSnap = await getDoc(docRef);
-//       const cartItems = (cartSnap.exists() && cartSnap.data().cartItems) || [];
-
-//       const updatedCartItems = cartItems.filter(
-//         (cartItem) => cartItem.id !== id
-//       );
-
-//       if (updatedCartItems.length === cartItems.length) {
-//         return thunkApi.rejectWithValue("Item not found");
-//       }
-
-//       await setDoc(docRef, { cartItems: updatedCartItems });
-//     } catch (error) {
-//       return thunkApi.rejectWithValue(error.message);
-//     }
-//   }
-// );
 
 export const removeFromCart = createAsyncThunk(
   "cart/removeFromCart",
@@ -135,38 +104,6 @@ export const removeFromCart = createAsyncThunk(
     }
   }
 );
-
-// export const reduceQuantity = createAsyncThunk(
-//   "cart/reduce",
-//   async (id, thunkApi) => {
-//     const state = thunkApi.getState();
-//     const { currentUser } = authSelector(state);
-
-//     if (!currentUser || !currentUser.email) {
-//       return thunkApi.rejectWithValue("Please Login!");
-//     }
-
-//     try {
-//       const docRef = doc(db, "cart", currentUser.email);
-//       const cartSnap = await getDoc(docRef);
-//       const cartItems =
-//         (cartSnap.exists() && [...cartSnap.data().cartItems]) || [];
-
-//       const updatedCartItems = cartItems
-//         .map((item) => {
-//           if (item.id === id) {
-//             item.quantity--;
-//           }
-//           return item;
-//         })
-//         .filter((item) => item.quantity > 0);
-
-//       await setDoc(docRef, { cartItems: updatedCartItems });
-//     } catch (error) {
-//       return thunkApi.rejectWithValue(error.message);
-//     }
-//   }
-// );
 
 export const reduceQuantity = createAsyncThunk(
   "cart/reduceQuantity",
@@ -203,35 +140,6 @@ export const reduceQuantity = createAsyncThunk(
     }
   }
 );
-
-// export const increaseQuantity = createAsyncThunk(
-//   "cart/increase",
-//   async (id, thunkApi) => {
-//     const state = thunkApi.getState();
-//     const { currentUser } = authSelector(state);
-
-//     if (!currentUser || !currentUser.email) {
-//       return thunkApi.rejectWithValue("Please Login!");
-//     }
-
-//     try {
-//       const docRef = doc(db, "cart", currentUser.email);
-//       const cartSnap = await getDoc(docRef);
-//       const cartItems = (cartSnap.exists() && cartSnap.data().cartItems) || [];
-
-//       const updatedCartItems = cartItems.map((item) => {
-//         if (item.id === id) {
-//           return { ...item, quantity: item.quantity++ };
-//         }
-//         return item;
-//       });
-
-//       await setDoc(docRef, { cartItems: updatedCartItems });
-//     } catch (error) {
-//       return thunkApi.rejectWithValue(error.message);
-//     }
-//   }
-// );
 
 export const increaseQuantity = createAsyncThunk(
   "cart/increaseQuantity",
@@ -272,9 +180,9 @@ const cartSlice = createSlice({
   name: "cart",
   initialState: INITIAL_STATE,
   reducers: {
-    initialLoad: (state, action) => {
-      state.cart = [...action.payload];
-    },
+    // initialLoad: (state, action) => {
+    //   state.cart = [...action.payload];
+    // },
     // add: (state, action) => {
     //   const existingItem = state.cart.find(
     //     (item) => action.payload.id === item.id
@@ -285,31 +193,31 @@ const cartSlice = createSlice({
     //     state.cart.push({ ...action.payload, quantity: 1 });
     //   }
     // },
-    remove: (state, action) => {
-      state.cart = state.cart.filter((item) => {
-        if (item.id !== action.payload) {
-          return item;
-        }
-      });
-    },
-    increase: (state, action) => {
-      state.cart = state.cart.map((item) => {
-        if (item.id === action.payload) {
-          item.quantity++;
-        }
-        return item;
-      });
-    },
-    decrease: (state, action) => {
-      state.cart = state.cart
-        .map((item) => {
-          if (item.id === action.payload) {
-            item.quantity--;
-          }
-          return item;
-        })
-        .filter((item) => item.quantity > 0);
-    },
+    // remove: (state, action) => {
+    //   state.cart = state.cart.filter((item) => {
+    //     if (item.id !== action.payload) {
+    //       return item;
+    //     }
+    //   });
+    // },
+    // increase: (state, action) => {
+    //   state.cart = state.cart.map((item) => {
+    //     if (item.id === action.payload) {
+    //       item.quantity++;
+    //     }
+    //     return item;
+    //   });
+    // },
+    // decrease: (state, action) => {
+    //   state.cart = state.cart
+    //     .map((item) => {
+    //       if (item.id === action.payload) {
+    //         item.quantity--;
+    //       }
+    //       return item;
+    //     })
+    //     .filter((item) => item.quantity > 0);
+    // },
   },
   extraReducers: (builder) =>
     builder

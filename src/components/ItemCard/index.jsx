@@ -14,7 +14,6 @@ export const ItemCard = ({ isCart, item }) => {
   const dispatch = useDispatch();
 
   const addToCartHandler = () => {
-    console.log("item in card => ", item);
     dispatch(addToCart(item));
   };
 
@@ -32,7 +31,6 @@ export const ItemCard = ({ isCart, item }) => {
 
   return (
     <div className={cardStyles.cardContainer}>
-      {console.log("quantity => ", quantity)}
       <img className={cardStyles.image} src={image} alt={title} />
       <p className={cardStyles.description}>{title}</p>
       <div className={cardStyles.priceContainer}>

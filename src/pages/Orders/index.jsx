@@ -11,7 +11,6 @@ export const Orders = () => {
   const dispatch = useDispatch();
   const { loading, error, orders } = useSelector(ordersSelector);
 
-  console.log("orders => ", orders);
 
   useEffect(() => {
     dispatch(getInitialOrders());

@@ -11,12 +11,11 @@ import {
 
 export const Home = () => {
   const dispatch = useDispatch();
-  const items = useSelector(itemsSelector);
+  const { items } = useSelector(itemsSelector);
 
   useEffect(() => {
     dispatch(getInitialState());
   }, []);
-
 
   return (
     <div className={homeStyles.bgContainer}>

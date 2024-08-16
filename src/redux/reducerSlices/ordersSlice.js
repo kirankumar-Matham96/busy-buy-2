@@ -17,7 +17,6 @@ export const getInitialOrders = createAsyncThunk(
       querySnapshot.forEach((doc) => {
         orders.push({ id: doc.id, ...doc.data() });
       });
-      console.log("orders in thunk => ", orders);
       return orders;
     } catch (error) {
       console.log(error);
@@ -37,8 +36,6 @@ const ordersSlice = createSlice({
       })
       .addCase(getInitialOrders.fulfilled, (state, action) => {
         state.loading = false;
-        console.log("action => ", action);
-        console.log("payload => ", action.payload);
         state.orders = [...action.payload];
       })
       .addCase(getInitialOrders.rejected, (state, action) => {
@@ -48,7 +45,6 @@ const ordersSlice = createSlice({
 });
 
 export const ordersReducer = ordersSlice.reducer;
-// export const { initialLoad } = ordersSlice.actions;
 export const ordersSelector = (state) => ({
   loading: state.ordersReducer.oading,
   error: state.ordersReducer.error,
