@@ -9,6 +9,7 @@ import { ErrorPage } from "./pages/ErrorPage";
 import { store } from "./redux/store";
 import { Provider } from "react-redux";
 import { ProtectedRoutes } from "./components/ProtectedRoutes";
+import { Notification } from "./components/Notification";
 import "./App.css";
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
       <BrowserRouter>
         <NavBar />
         <div className="pageContainer">
+          <Notification />
           <Routes>
             <Route
               exact

@@ -3,6 +3,11 @@ import { db } from "../../config/firestore.config";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { authSelector } from "./authSlice";
 import { addOrder } from "./ordersSlice";
+import {
+  notifyDanger,
+  notifySuccess,
+  notifyWarning,
+} from "../../components/Notification";
 
 export const getInitialCartItems = createAsyncThunk(
   "cart/getInitialCart",
@@ -235,6 +240,7 @@ const cartSlice = createSlice({
       })
       .addCase(addToCart.pending, (state) => {
         state.loading = true;
+        notifyWarning("Adding to cart...");
       })
       .addCase(addToCart.fulfilled, (state, action) => {
         state.loading = false;
@@ -242,10 +248,12 @@ const cartSlice = createSlice({
         state.totalPrice = state.cart
           .reduce((acc, item) => acc + item.price * item.quantity, 0)
           .toFixed(2);
+        notifySuccess("Item added to cart.");
       })
       .addCase(addToCart.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        notifyDanger("Failed to add to cart!");
       })
       .addCase(removeFromCart.pending, (state) => {
         state.loading = true;
@@ -256,6 +264,7 @@ const cartSlice = createSlice({
         state.totalPrice = state.cart
           .reduce((acc, item) => acc + item.price * item.quantity, 0)
           .toFixed(2);
+        notifyDanger("Item removed from the cart!");
       })
       .addCase(removeFromCart.rejected, (state, action) => {
         state.loading = false;
@@ -263,6 +272,7 @@ const cartSlice = createSlice({
       })
       .addCase(increaseQuantity.pending, (state) => {
         state.loading = true;
+        notifyWarning("Increasing the quantity...");
       })
       .addCase(increaseQuantity.fulfilled, (state, action) => {
         state.loading = false;
@@ -270,13 +280,16 @@ const cartSlice = createSlice({
         state.totalPrice = state.cart
           .reduce((acc, item) => acc + item.price * item.quantity, 0)
           .toFixed(2);
+        notifySuccess("Quantity increased.");
       })
       .addCase(increaseQuantity.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        notifyDanger("Failed to increased increase the quantity!");
       })
       .addCase(reduceQuantity.pending, (state) => {
         state.loading = true;
+        notifyWarning("Decreasing the quantity...");
       })
       .addCase(reduceQuantity.fulfilled, (state, action) => {
         state.loading = false;
@@ -284,21 +297,26 @@ const cartSlice = createSlice({
         state.totalPrice = state.cart
           .reduce((acc, item) => acc + item.price * item.quantity, 0)
           .toFixed(2);
+        notifySuccess("Quantity Decreased.");
       })
       .addCase(reduceQuantity.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        notifyDanger("Failed to decreased increase the quantity!");
       })
       .addCase(completePurchase.pending, (state) => {
         state.loading = true;
+        notifyWarning("Placing the order...");
       })
       .addCase(completePurchase.fulfilled, (state, action) => {
         state.loading = false;
         state.cart = action.payload;
+        notifySuccess("Order Confirmed!");
       })
       .addCase(completePurchase.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        notifyDanger("Failed to place order!");
       }),
 });
 
