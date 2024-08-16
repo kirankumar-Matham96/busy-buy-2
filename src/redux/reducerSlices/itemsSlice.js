@@ -11,6 +11,7 @@ export const getInitialState = createAsyncThunk(
       thunkApi.dispatch(initialLoad(resp.data));
     } catch (error) {
       console.log(error);
+      thunkApi.rejectWithValue(error.message);
     }
   }
 );

@@ -1,26 +1,35 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { db } from "../../config/firestore.config";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, doc, getDoc, query, where } from "firebase/firestore";
+import { authSelector } from "./authSlice";
 
 export const getInitialCartItems = createAsyncThunk(
   "cart/getInitialCart",
   async (arg, thunkApi) => {
+    const state = thunkApi.getState();
+    const { currentUser } = authSelector(state);
     try {
-      const cartItems = [];
-      const querySnapshot = await getDocs(collection(db, "cart"));
-      querySnapshot.forEach((doc) => {
-        console.log(doc.id, " => ", doc.data());
-        cartItems.push({ id: doc.id, ...doc.data() });
-      });
-
-      thunkApi.dispatch(initialLoad(cartItems));
+      const querySnapshot = await getDoc(doc(db, "cart", currentUser.email));
+      if (querySnapshot.exists()) {
+        const cartItems = { id: querySnapshot.id, ...querySnapshot.data() };
+        return cartItems.cartItems;
+      }
+      return null;
     } catch (error) {
-      console.log(error);
+      return thunkApi.rejectWithValue(error.message);
     }
   }
 );
 
-const INITIAL_STATE = { cart: [] };
+// export const addToCart = createAsyncThunk("cart/add", (arg, thunkApi) => {
+//   try {
+//     setDoc()
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
+
+const INITIAL_STATE = { cart: [], loading: false, error: null };
 
 const cartSlice = createSlice({
   name: "cart",
@@ -65,6 +74,19 @@ const cartSlice = createSlice({
         .filter((item) => item.quantity > 0);
     },
   },
+  extraReducers: (builder) =>
+    builder
+      .addCase(getInitialCartItems.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getInitialCartItems.fulfilled, (state, action) => {
+        state.loading = false;
+        state.cart = [...action.payload];
+      })
+      .addCase(getInitialCartItems.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      }),
 });
 
 export const cartReducer = cartSlice.reducer;

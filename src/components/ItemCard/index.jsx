@@ -2,7 +2,7 @@ import { Button } from "../Button";
 import cardStyles from "./index.module.css";
 
 export const ItemCard = ({ isCart, item }) => {
-  console.log("item => ", item);
+  console.log("item in cart card => ", item);
   const { title, price, image, id, quantity } = item;
   return (
     <div className={cardStyles.cardContainer}>
