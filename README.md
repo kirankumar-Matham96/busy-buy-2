@@ -1,6 +1,3 @@
-1. Loading component
-2. Styling completion
-3. Error page
-4. 404 path not found page
-5. Readme
-6. Documentation
+1. Styling completion
+2. Readme
+3. Documentation

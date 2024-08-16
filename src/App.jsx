@@ -54,6 +54,7 @@ function App() {
               }
               errorElement={<ErrorPage />}
             />
+            <Route path="*" element={<ErrorPage />} />
           </Routes>
         </div>
       </BrowserRouter>
