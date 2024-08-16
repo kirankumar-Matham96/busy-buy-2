@@ -8,6 +8,7 @@ import { Orders } from "./pages/Orders";
 import { ErrorPage } from "./pages/ErrorPage";
 import { store } from "./redux/store";
 import { Provider } from "react-redux";
+import { ProtectedRoutes } from "./components/ProtectedRoutes";
 import "./App.css";
 
 function App() {
@@ -35,12 +36,20 @@ function App() {
             />
             <Route
               path="/cart"
-              element={<Cart />}
+              element={
+                <ProtectedRoutes>
+                  <Cart />
+                </ProtectedRoutes>
+              }
               errorElement={<ErrorPage />}
             />
             <Route
               path="/orders"
-              element={<Orders />}
+              element={
+                <ProtectedRoutes>
+                  <Orders />
+                </ProtectedRoutes>
+              }
               errorElement={<ErrorPage />}
             />
           </Routes>
