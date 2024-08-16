@@ -62,8 +62,8 @@ export const addToCart = createAsyncThunk(
       }
 
       // push the new cart data to db
-      const resp = await setDoc(docRef, { cartItems: cartList });
-
+      await setDoc(docRef, { cartItems: cartList });
+      return item;
     } catch (error) {
       console.log(error);
       return thunkApi.rejectWithValue(error.message);
@@ -237,7 +237,9 @@ const cartSlice = createSlice({
       })
       .addCase(addToCart.fulfilled, (state, action) => {
         state.loading = false;
-        state.cart = [...action.payload];
+        console.log("add to cart action => ", action);
+        console.log("add to cart action payload => ", action.payload);
+        state.cart = [...state.cart, action.payload];
       })
       .addCase(addToCart.rejected, (state, action) => {
         state.loading = false;

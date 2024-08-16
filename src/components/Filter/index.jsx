@@ -57,8 +57,8 @@ export const Filter = () => {
       <div className={filterStyles.categoryFilter}>
         <h3>Category</h3>
         <div className={filterStyles.categories}>
-          {categories.map((category) => (
-            <label htmlFor="category">
+          {categories.map((category, index) => (
+            <label htmlFor="category" key={index}>
               <input
                 type="checkbox"
                 id="category"
