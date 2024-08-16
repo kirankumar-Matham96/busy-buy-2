@@ -7,9 +7,10 @@ import {
 } from "../../redux/reducerSlices/cartSlice";
 import cartStyles from "./index.module.css";
 import { useDispatch, useSelector } from "react-redux";
+import { Loader } from "../../components/Loader";
 
 export const Cart = () => {
-  const { cart } = useSelector(cartSelector);
+  const { cart, loading } = useSelector(cartSelector);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -21,7 +22,7 @@ export const Cart = () => {
       <div className={cartStyles.purchaseOptionContainer}>
         <PurchaseOption />
       </div>
-      <ItemsContainer isCart={true} items={cart} />
+      {loading ? <Loader /> : <ItemsContainer isCart={true} items={cart} />}
     </div>
   );
 };

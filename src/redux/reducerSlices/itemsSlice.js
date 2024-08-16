@@ -17,7 +17,7 @@ export const getInitialState = createAsyncThunk(
   async (arg, thunkApi) => {
     try {
       const resp = await axios.get("https://fakestoreapi.com/products");
-      return thunkApi.dispatch(initialLoad(resp.data));
+      return resp.data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
     }
@@ -28,13 +28,6 @@ const itemsSlice = createSlice({
   name: "items",
   initialState: INITIAL_STATE,
   reducers: {
-    initialLoad: (state, action) => {
-      state.items = [...action.payload];
-      state.filteredItems = [...action.payload];
-      const categoriesSet = new Set();
-      action.payload.map((item) => categoriesSet.add(item.category));
-      state.allCategories = [...Array.from(categoriesSet)];
-    },
     setSearchTerm: (state, action) => {
       state.searchQuery = action.payload;
     },
@@ -46,8 +39,6 @@ const itemsSlice = createSlice({
     },
     filterResults: (state) => {
       const { searchQuery, categories, maxPrice } = state;
-
-      console.log({ searchQuery, categories, maxPrice });
 
       state.filteredItems = state.items
         .filter((item) =>
@@ -61,20 +52,33 @@ const itemsSlice = createSlice({
             : true
         )
         .filter((item) => (maxPrice ? item.price <= maxPrice : true));
-      console.log("state.filteredItems => ", state.filteredItems);
     },
   },
+  extraReducers: (builder) =>
+    builder
+      .addCase(getInitialState.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getInitialState.fulfilled, (state, action) => {
+        state.loading = false;
+        state.items = [...action.payload];
+        state.filteredItems = [...action.payload];
+        const categoriesSet = new Set();
+        action.payload.map((item) => categoriesSet.add(item.category));
+        state.allCategories = [...Array.from(categoriesSet)];
+      })
+      .addCase(getInitialState.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      }),
 });
 
 export const itemReducer = itemsSlice.reducer;
-export const {
-  initialLoad,
-  setSearchTerm,
-  setCategories,
-  setMaxPrice,
-  filterResults,
-} = itemsSlice.actions;
+export const { setSearchTerm, setCategories, setMaxPrice, filterResults } =
+  itemsSlice.actions;
 export const itemsSelector = (state) => ({
   items: state.itemReducer.filteredItems,
   categories: state.itemReducer.allCategories,
+  loading: state.itemReducer.loading,
+  error: state.itemReducer.error,
 });

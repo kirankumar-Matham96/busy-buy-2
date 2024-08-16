@@ -8,10 +8,11 @@ import {
   itemsSelector,
   getInitialState,
 } from "../../redux/reducerSlices/itemsSlice";
+import { Loader } from "../../components/Loader";
 
 export const Home = () => {
   const dispatch = useDispatch();
-  const { items } = useSelector(itemsSelector);
+  const { items, loading } = useSelector(itemsSelector);
 
   useEffect(() => {
     dispatch(getInitialState());
@@ -22,7 +23,7 @@ export const Home = () => {
       <div className={homeStyles.searchContainer}>
         <SearchBox />
       </div>
-      <ItemsContainer items={items} />
+      {loading ? <Loader /> : <ItemsContainer items={items} />}
       <div className={homeStyles.filterContainer}>
         <Filter />
       </div>

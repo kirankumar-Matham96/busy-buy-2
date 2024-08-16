@@ -81,7 +81,7 @@ const ordersSlice = createSlice({
 
 export const ordersReducer = ordersSlice.reducer;
 export const ordersSelector = (state) => ({
-  loading: state.ordersReducer.oading,
+  loading: state.ordersReducer.loading,
   error: state.ordersReducer.error,
   orders: state.ordersReducer.orders,
 });

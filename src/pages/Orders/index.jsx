@@ -6,6 +6,7 @@ import {
   ordersSelector,
 } from "../../redux/reducerSlices/ordersSlice";
 import ordersStyles from "./index.module.css";
+import { Loader } from "../../components/Loader";
 
 export const Orders = () => {
   const dispatch = useDispatch();
@@ -34,9 +35,12 @@ export const Orders = () => {
   return (
     <div className={ordersStyles.container}>
       <h1 className={ordersStyles.h1}>Your Orders</h1>
-      {loading ? "Loading..." : null}
-      {orders &&
-        orders.map((order) => <Order order={order} formatDate={formatDate} />)}
+      {loading ? (
+        <Loader />
+      ) : (
+        orders &&
+        orders.map((order) => <Order order={order} formatDate={formatDate} />)
+      )}
     </div>
   );
 };
