@@ -11,4 +11,10 @@ export const store = configureStore({
     cartReducer,
     ordersReducer,
   },
+  // middleware: (getDefaultMiddleware) =>
+  //   getDefaultMiddleware({
+  //     serializableCheck: {
+  //       ignoredPaths: ["ordersReducer.orders", "cartReducer.cart"],
+  //     },
+  //   }),
 });

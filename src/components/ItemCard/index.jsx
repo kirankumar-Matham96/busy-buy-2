@@ -1,6 +1,11 @@
 import { Button } from "../Button";
 import { useDispatch } from "react-redux";
-import { addToCart } from "../../redux/reducerSlices/cartSlice";
+import {
+  addToCart,
+  increaseQuantity,
+  reduceQuantity,
+  removeFromCart,
+} from "../../redux/reducerSlices/cartSlice";
 import cardStyles from "./index.module.css";
 
 export const ItemCard = ({ isCart, item }) => {
@@ -13,20 +18,28 @@ export const ItemCard = ({ isCart, item }) => {
     dispatch(addToCart(item));
   };
 
+  const removeFromCartHandle = () => {
+    dispatch(removeFromCart(id));
+  };
+
+  const increaseQuantityHandle = () => {
+    dispatch(increaseQuantity(id));
+  };
+
+  const decreaseQuantityHandle = () => {
+    dispatch(reduceQuantity(id));
+  };
+
   return (
     <div className={cardStyles.cardContainer}>
-      <img
-        className={cardStyles.image}
-        // src="https://imgs.search.brave.com/0mktqo9UA-JoMx1d9DhlGIwereT71o1CnPwQhPCM8Ts/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/NzFjTnF3ejVscEwu/anBn"
-        src={image}
-        alt={title}
-      />
+      {console.log("quantity => ", quantity)}
+      <img className={cardStyles.image} src={image} alt={title} />
       <p className={cardStyles.description}>{title}</p>
       <div className={cardStyles.priceContainer}>
         <p className={cardStyles.price}>&#8377; {price}</p>
         {isCart ? (
           <div className={cardStyles.buttonsContainer}>
-            <Button padding={"0"}>
+            <Button padding={"0"} onClick={decreaseQuantityHandle}>
               <img
                 className={cardStyles.btnImage}
                 src="https://cdn-icons-png.flaticon.com/128/1828/1828899.png"
@@ -34,7 +47,7 @@ export const ItemCard = ({ isCart, item }) => {
               />
             </Button>
             <p>{quantity}</p>
-            <Button>
+            <Button padding={"0"} onClick={increaseQuantityHandle}>
               <img
                 className={cardStyles.btnImage}
                 src="https://cdn-icons-png.flaticon.com/128/1828/1828919.png"
@@ -49,7 +62,7 @@ export const ItemCard = ({ isCart, item }) => {
           Add To Cart
         </Button>
       ) : (
-        <Button bgColor="red" color="white">
+        <Button bgColor="red" color="white" onClick={removeFromCartHandle}>
           Remove from Cart
         </Button>
       )}

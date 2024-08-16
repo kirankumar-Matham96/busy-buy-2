@@ -62,9 +62,205 @@ export const addToCart = createAsyncThunk(
       }
 
       // push the new cart data to db
-      await setDoc(docRef, { cartItems: cartList });
+      const resp = await setDoc(docRef, { cartItems: cartList });
+
+      console.log("addToCart resp => ", resp);
     } catch (error) {
       console.log(error);
+      return thunkApi.rejectWithValue(error.message);
+    }
+  }
+);
+
+// export const removeFromCart = createAsyncThunk(
+//   "cart/removeFromCart",
+//   async (id, thunkApi) => {
+//     const state = thunkApi.getState();
+//     const { currentUser } = authSelector(state);
+
+//     if (!currentUser || !currentUser.email) {
+//       return thunkApi.rejectWithValue("Please Login!");
+//     }
+
+//     try {
+//       const docRef = doc(db, "cart", currentUser.email);
+//       const cartSnap = await getDoc(docRef);
+//       const cartItems = (cartSnap.exists() && cartSnap.data().cartItems) || [];
+
+//       const updatedCartItems = cartItems.filter(
+//         (cartItem) => cartItem.id !== id
+//       );
+
+//       if (updatedCartItems.length === cartItems.length) {
+//         return thunkApi.rejectWithValue("Item not found");
+//       }
+
+//       await setDoc(docRef, { cartItems: updatedCartItems });
+//     } catch (error) {
+//       return thunkApi.rejectWithValue(error.message);
+//     }
+//   }
+// );
+
+export const removeFromCart = createAsyncThunk(
+  "cart/removeFromCart",
+  async (id, thunkApi) => {
+    const state = thunkApi.getState();
+    const { currentUser } = authSelector(state);
+
+    if (!currentUser || !currentUser.email) {
+      return thunkApi.rejectWithValue("Please Login!");
+    }
+
+    try {
+      const docRef = doc(db, "cart", currentUser.email);
+      const cartSnap = await getDoc(docRef);
+      const cartItems = (cartSnap.exists() && cartSnap.data().cartItems) || [];
+
+      const updatedCartItems = cartItems.filter(
+        (cartItem) => cartItem.id !== id
+      );
+
+      if (updatedCartItems.length === cartItems.length) {
+        return thunkApi.rejectWithValue("Item not found");
+      }
+
+      // Update the state with the new cart items
+      await setDoc(docRef, { cartItems: updatedCartItems });
+
+      // Return updated cart items to update the store
+      return updatedCartItems;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  }
+);
+
+// export const reduceQuantity = createAsyncThunk(
+//   "cart/reduce",
+//   async (id, thunkApi) => {
+//     const state = thunkApi.getState();
+//     const { currentUser } = authSelector(state);
+
+//     if (!currentUser || !currentUser.email) {
+//       return thunkApi.rejectWithValue("Please Login!");
+//     }
+
+//     try {
+//       const docRef = doc(db, "cart", currentUser.email);
+//       const cartSnap = await getDoc(docRef);
+//       const cartItems =
+//         (cartSnap.exists() && [...cartSnap.data().cartItems]) || [];
+
+//       const updatedCartItems = cartItems
+//         .map((item) => {
+//           if (item.id === id) {
+//             item.quantity--;
+//           }
+//           return item;
+//         })
+//         .filter((item) => item.quantity > 0);
+
+//       await setDoc(docRef, { cartItems: updatedCartItems });
+//     } catch (error) {
+//       return thunkApi.rejectWithValue(error.message);
+//     }
+//   }
+// );
+
+export const reduceQuantity = createAsyncThunk(
+  "cart/reduceQuantity",
+  async (id, thunkApi) => {
+    const state = thunkApi.getState();
+    const { currentUser } = authSelector(state);
+
+    if (!currentUser || !currentUser.email) {
+      return thunkApi.rejectWithValue("Please Login!");
+    }
+
+    try {
+      const docRef = doc(db, "cart", currentUser.email);
+      const cartSnap = await getDoc(docRef);
+      const cartItems =
+        (cartSnap.exists() && [...cartSnap.data().cartItems]) || [];
+
+      const updatedCartItems = cartItems
+        .map((item) => {
+          if (item.id === id) {
+            return { ...item, quantity: item.quantity - 1 };
+          }
+          return item;
+        })
+        .filter((item) => item.quantity > 0);
+
+      // Update the state with the new cart items
+      await setDoc(docRef, { cartItems: updatedCartItems });
+
+      // Return updated cart items to update the store
+      return updatedCartItems;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  }
+);
+
+// export const increaseQuantity = createAsyncThunk(
+//   "cart/increase",
+//   async (id, thunkApi) => {
+//     const state = thunkApi.getState();
+//     const { currentUser } = authSelector(state);
+
+//     if (!currentUser || !currentUser.email) {
+//       return thunkApi.rejectWithValue("Please Login!");
+//     }
+
+//     try {
+//       const docRef = doc(db, "cart", currentUser.email);
+//       const cartSnap = await getDoc(docRef);
+//       const cartItems = (cartSnap.exists() && cartSnap.data().cartItems) || [];
+
+//       const updatedCartItems = cartItems.map((item) => {
+//         if (item.id === id) {
+//           return { ...item, quantity: item.quantity++ };
+//         }
+//         return item;
+//       });
+
+//       await setDoc(docRef, { cartItems: updatedCartItems });
+//     } catch (error) {
+//       return thunkApi.rejectWithValue(error.message);
+//     }
+//   }
+// );
+
+export const increaseQuantity = createAsyncThunk(
+  "cart/increaseQuantity",
+  async (id, thunkApi) => {
+    const state = thunkApi.getState();
+    const { currentUser } = authSelector(state);
+
+    if (!currentUser || !currentUser.email) {
+      return thunkApi.rejectWithValue("Please Login!");
+    }
+
+    try {
+      const docRef = doc(db, "cart", currentUser.email);
+      const cartSnap = await getDoc(docRef);
+      const cartItems = (cartSnap.exists() && cartSnap.data().cartItems) || [];
+
+      const updatedCartItems = cartItems.map((item) => {
+        if (item.id === id) {
+          return { ...item, quantity: item.quantity + 1 };
+        }
+        return item;
+      });
+
+      // Update the state with the new cart items
+      await setDoc(docRef, { cartItems: updatedCartItems });
+
+      // Return updated cart items to update the store
+      return updatedCartItems;
+    } catch (error) {
       return thunkApi.rejectWithValue(error.message);
     }
   }
@@ -125,6 +321,50 @@ const cartSlice = createSlice({
         state.cart = [...action.payload];
       })
       .addCase(getInitialCartItems.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(addToCart.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(addToCart.fulfilled, (state, action) => {
+        state.loading = false;
+        state.cart = [...action.payload];
+      })
+      .addCase(addToCart.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(removeFromCart.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(removeFromCart.fulfilled, (state, action) => {
+        state.loading = false;
+        state.cart = [...action.payload];
+      })
+      .addCase(removeFromCart.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(increaseQuantity.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(increaseQuantity.fulfilled, (state, action) => {
+        state.loading = false;
+        state.cart = [...action.payload];
+      })
+      .addCase(increaseQuantity.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(reduceQuantity.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(reduceQuantity.fulfilled, (state, action) => {
+        state.loading = false;
+        state.cart = [...action.payload];
+      })
+      .addCase(reduceQuantity.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       }),

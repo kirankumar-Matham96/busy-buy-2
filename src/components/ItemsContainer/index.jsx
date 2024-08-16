@@ -2,6 +2,7 @@ import { ItemCard } from "../ItemCard";
 import itemsContainerStyles from "./index.module.css";
 
 export const ItemsContainer = ({ isCart = false, items }) => {
+  console.log("items in container => ", items);
   return (
     <div className={itemsContainerStyles.bgContainer}>
       {items &&

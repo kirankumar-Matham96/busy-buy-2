@@ -15,7 +15,7 @@ export const Cart = () => {
 
   useEffect(() => {
     dispatch(getInitialCartItems());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className={cartStyles.bgContainer}>

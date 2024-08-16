@@ -8,9 +8,10 @@ export const getInitialState = createAsyncThunk(
   async (arg, thunkApi) => {
     try {
       const resp = await axios.get("https://fakestoreapi.com/products");
+      console.log({ resp });
       thunkApi.dispatch(initialLoad(resp.data));
     } catch (error) {
-      console.log(error);
+      console.log("items fetch error => ", error);
       thunkApi.rejectWithValue(error.message);
     }
   }

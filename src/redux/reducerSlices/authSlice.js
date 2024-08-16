@@ -6,7 +6,6 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import { app } from "../../config/firestore.config";
-
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const INITIAL_STATE = {
@@ -16,6 +15,29 @@ const INITIAL_STATE = {
 };
 
 const auth = getAuth(app);
+
+export const observeAuthState = createAsyncThunk(
+  "user/observeAuthState",
+  async (arg, thunkApi) => {
+    try {
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          thunkApi.dispatch(
+            setCurrentUser({
+              uid: user.uid,
+              email: user.email,
+              displayName: user.displayName,
+            })
+          );
+        } else {
+          thunkApi.dispatch(setCurrentUser(null));
+        }
+      });
+    } catch (error) {
+      thunkApi.rejectWithValue(error.message);
+    }
+  }
+);
 
 export const signin = createAsyncThunk(
   "user/login",
@@ -66,7 +88,11 @@ export const signout = createAsyncThunk(
 const authSlice = createSlice({
   name: "user",
   initialState: INITIAL_STATE,
-  reducers: {},
+  reducers: {
+    setCurrentUser: (state, action) => {
+      state.currentUser = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(signin.pending, (state) => {
@@ -105,6 +131,7 @@ const authSlice = createSlice({
 });
 
 export const authReducer = authSlice.reducer;
+export const { setCurrentUser } = authSlice.actions;
 export const authSelector = (state) => ({
   loading: state.authReducer.loading,
   error: state.authReducer.error,

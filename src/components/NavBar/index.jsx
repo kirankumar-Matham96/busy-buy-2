@@ -1,10 +1,19 @@
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { authSelector, signout } from "../../redux/reducerSlices/authSlice";
+import {
+  authSelector,
+  observeAuthState,
+  signout,
+} from "../../redux/reducerSlices/authSlice";
 import navStyles from "./index.module.css";
+import { useEffect } from "react";
 export const NavBar = () => {
   const { currentUser } = useSelector(authSelector);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(observeAuthState());
+  }, []);
 
   const signOutHandle = () => {
     dispatch(signout());
