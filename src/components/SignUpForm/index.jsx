@@ -25,9 +25,7 @@ export const SignUpForm = () => {
 
   const submitHandle = (e) => {
     e.preventDefault();
-    console.log(email, password, confirmPassword);
     const resp = dispatch(signup({ email, password }));
-    console.log("signup rep => ", resp);
     setSignUpAttempt(true);
   };
 
