@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { authSelector } from "../../redux/reducerSlices/authSlice";
 import navStyles from "./index.module.css";
 export const NavBar = () => {
+  const { loading, currentUser } = useSelector(authSelector);
+
   return (
     <div className={navStyles.navContainer}>
       <div className={navStyles.navBrand}>
@@ -36,16 +40,23 @@ export const NavBar = () => {
         </Link>
         <Link to="/signIn">
           <li className={navStyles.navLink}>
-            <img
-              src="https://cdn-icons-png.flaticon.com/128/9653/9653944.png"
-              alt="sign in"
-            />
-            Sign In
-            {/* <img
-              src="https://cdn-icons-png.flaticon.com/128/14722/14722724.png"
-              alt="sign in"
-            />
-            Sign Out */}
+            {currentUser ? (
+              <>
+                <img
+                  src="https://cdn-icons-png.flaticon.com/128/14722/14722724.png"
+                  alt="sign in"
+                />
+                Sign Out
+              </>
+            ) : (
+              <>
+                <img
+                  src="https://cdn-icons-png.flaticon.com/128/9653/9653944.png"
+                  alt="sign in"
+                />
+                Sign In
+              </>
+            )}
           </li>
         </Link>
       </ul>

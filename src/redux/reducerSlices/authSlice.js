@@ -85,7 +85,6 @@ const authSlice = createSlice({
       })
       .addCase(signup.fulfilled, (state, action) => {
         state.loading = false;
-        // here notification needs to be triggered
       })
       .addCase(signup.rejected, (state, action) => {
         state.loading = false;
