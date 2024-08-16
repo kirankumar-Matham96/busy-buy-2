@@ -12,7 +12,6 @@ import {
 export const Home = () => {
   const dispatch = useDispatch();
   const items = useSelector(itemsSelector);
-  console.log("items in home => ", items);
 
   useEffect(() => {
     dispatch(getInitialState());

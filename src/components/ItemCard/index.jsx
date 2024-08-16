@@ -1,9 +1,18 @@
 import { Button } from "../Button";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../redux/reducerSlices/cartSlice";
 import cardStyles from "./index.module.css";
 
 export const ItemCard = ({ isCart, item }) => {
-  console.log("item in cart card => ", item);
   const { title, price, image, id, quantity } = item;
+
+  const dispatch = useDispatch();
+
+  const addToCartHandler = () => {
+    console.log("item in card => ", item);
+    dispatch(addToCart(item));
+  };
+
   return (
     <div className={cardStyles.cardContainer}>
       <img
@@ -36,7 +45,7 @@ export const ItemCard = ({ isCart, item }) => {
         ) : null}
       </div>
       {!isCart ? (
-        <Button bgColor="purple" color="white">
+        <Button bgColor="purple" color="white" onClick={addToCartHandler}>
           Add To Cart
         </Button>
       ) : (

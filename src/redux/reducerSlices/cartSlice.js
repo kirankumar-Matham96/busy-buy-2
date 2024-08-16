@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { db } from "../../config/firestore.config";
-import { collection, doc, getDoc, query, where } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { authSelector } from "./authSlice";
 
 export const getInitialCartItems = createAsyncThunk(
@@ -8,6 +8,11 @@ export const getInitialCartItems = createAsyncThunk(
   async (arg, thunkApi) => {
     const state = thunkApi.getState();
     const { currentUser } = authSelector(state);
+
+    if (!currentUser || !currentUser.email) {
+      return thunkApi.rejectWithValue("Please Login!");
+    }
+
     try {
       const querySnapshot = await getDoc(doc(db, "cart", currentUser.email));
       if (querySnapshot.exists()) {
@@ -21,13 +26,49 @@ export const getInitialCartItems = createAsyncThunk(
   }
 );
 
-// export const addToCart = createAsyncThunk("cart/add", (arg, thunkApi) => {
-//   try {
-//     setDoc()
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
+export const addToCart = createAsyncThunk(
+  "cart/addToCart",
+  async (item, thunkApi) => {
+    const state = thunkApi.getState();
+    const { currentUser } = authSelector(state);
+
+    if (!currentUser || !currentUser.email) {
+      return thunkApi.rejectWithValue("Please Login!");
+    }
+
+    try {
+      // fetch cartItems from db
+      const docRef = doc(db, "cart", currentUser.email);
+      const cartSnapshot = await getDoc(docRef);
+
+      const cartList = cartSnapshot.exists()
+        ? [...cartSnapshot.data().cartItems]
+        : [];
+
+      // check if item exists
+      const isItemExists = cartList.some((cartItem) => cartItem.id === item.id);
+
+      if (isItemExists) {
+        // if exists, increment quantity
+        cartList.map((cartItem) => {
+          if (cartItem.id === item.id) {
+            cartItem.quantity++;
+          }
+          return cartItem;
+        });
+      } else {
+        // if not, add item to cart along with quantity:1
+        cartList.push({ ...item, quantity: 1 });
+      }
+
+      // push the new cart data to db
+      await setDoc(docRef, { cartItems: cartList });
+    } catch (error) {
+      console.log(error);
+      return thunkApi.rejectWithValue(error.message);
+    }
+  }
+);
 
 const INITIAL_STATE = { cart: [], loading: false, error: null };
 
@@ -38,16 +79,16 @@ const cartSlice = createSlice({
     initialLoad: (state, action) => {
       state.cart = [...action.payload];
     },
-    add: (state, action) => {
-      const existingItem = state.cart.find(
-        (item) => action.payload.id === item.id
-      );
-      if (existingItem) {
-        existingItem.quantity++;
-      } else {
-        state.cart.push({ ...action.payload, quantity: 1 });
-      }
-    },
+    // add: (state, action) => {
+    //   const existingItem = state.cart.find(
+    //     (item) => action.payload.id === item.id
+    //   );
+    //   if (existingItem) {
+    //     existingItem.quantity++;
+    //   } else {
+    //     state.cart.push({ ...action.payload, quantity: 1 });
+    //   }
+    // },
     remove: (state, action) => {
       state.cart = state.cart.filter((item) => {
         if (item.id !== action.payload) {
