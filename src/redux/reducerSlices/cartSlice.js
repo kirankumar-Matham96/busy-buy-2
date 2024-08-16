@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { db } from "../../config/firestore.config";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { authSelector } from "./authSlice";
+import { addOrder } from "./ordersSlice";
 
 export const getInitialCartItems = createAsyncThunk(
   "cart/getInitialCart",
@@ -176,6 +177,40 @@ export const increaseQuantity = createAsyncThunk(
   }
 );
 
+export const completePurchase = createAsyncThunk(
+  "cart/completePurchase",
+  async (arg, thunkApi) => {
+    const state = thunkApi.getState();
+    const { currentUser } = authSelector(state);
+    const { cart, totalPrice } = cartSelector(state);
+    console.log("in thunk");
+    try {
+      await thunkApi
+        .dispatch(
+          addOrder({
+            userId: currentUser.email,
+            items: cart,
+            total: totalPrice,
+            timestamp: new Date().toDateString(),
+          })
+        )
+        .unwrap();
+
+      console.log("Order Confirmed");
+
+      const docRef = doc(db, "cart", currentUser.email);
+      await setDoc(docRef, { cartItems: [] });
+
+      console.log("Cart cleared");
+      return [];
+    } catch (error) {
+      console.log("Error in purchase");
+      console.log("Error => ", error);
+      return thunkApi.rejectWithValue(error.message);
+    }
+  }
+);
+
 const INITIAL_STATE = { cart: [], loading: false, error: null, totalPrice: 0 };
 
 const cartSlice = createSlice({
@@ -190,10 +225,9 @@ const cartSlice = createSlice({
       .addCase(getInitialCartItems.fulfilled, (state, action) => {
         state.loading = false;
         state.cart = action.payload || [];
-        state.totalPrice = state.cart.reduce(
-          (acc, item) => acc + item.price * item.quantity,
-          0
-        );
+        state.totalPrice = state.cart
+          .reduce((acc, item) => acc + item.price * item.quantity, 0)
+          .toFixed(2);
       })
       .addCase(getInitialCartItems.rejected, (state, action) => {
         state.loading = false;
@@ -205,10 +239,9 @@ const cartSlice = createSlice({
       .addCase(addToCart.fulfilled, (state, action) => {
         state.loading = false;
         state.cart = action.payload;
-        state.totalPrice = state.cart.reduce(
-          (acc, item) => acc + item.price * item.quantity,
-          0
-        );
+        state.totalPrice = state.cart
+          .reduce((acc, item) => acc + item.price * item.quantity, 0)
+          .toFixed(2);
       })
       .addCase(addToCart.rejected, (state, action) => {
         state.loading = false;
@@ -220,10 +253,9 @@ const cartSlice = createSlice({
       .addCase(removeFromCart.fulfilled, (state, action) => {
         state.loading = false;
         state.cart = action.payload;
-        state.totalPrice = state.cart.reduce(
-          (acc, item) => acc + item.price * item.quantity,
-          0
-        );
+        state.totalPrice = state.cart
+          .reduce((acc, item) => acc + item.price * item.quantity, 0)
+          .toFixed(2);
       })
       .addCase(removeFromCart.rejected, (state, action) => {
         state.loading = false;
@@ -235,10 +267,9 @@ const cartSlice = createSlice({
       .addCase(increaseQuantity.fulfilled, (state, action) => {
         state.loading = false;
         state.cart = action.payload;
-        state.totalPrice = state.cart.reduce(
-          (acc, item) => acc + item.price * item.quantity,
-          0
-        );
+        state.totalPrice = state.cart
+          .reduce((acc, item) => acc + item.price * item.quantity, 0)
+          .toFixed(2);
       })
       .addCase(increaseQuantity.rejected, (state, action) => {
         state.loading = false;
@@ -250,12 +281,22 @@ const cartSlice = createSlice({
       .addCase(reduceQuantity.fulfilled, (state, action) => {
         state.loading = false;
         state.cart = action.payload;
-        state.totalPrice = state.cart.reduce(
-          (acc, item) => acc + item.price * item.quantity,
-          0
-        );
+        state.totalPrice = state.cart
+          .reduce((acc, item) => acc + item.price * item.quantity, 0)
+          .toFixed(2);
       })
       .addCase(reduceQuantity.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(completePurchase.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(completePurchase.fulfilled, (state, action) => {
+        state.loading = false;
+        state.cart = action.payload;
+      })
+      .addCase(completePurchase.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       }),

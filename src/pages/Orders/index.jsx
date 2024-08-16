@@ -11,14 +11,18 @@ export const Orders = () => {
   const dispatch = useDispatch();
   const { loading, error, orders } = useSelector(ordersSelector);
 
-
   useEffect(() => {
     dispatch(getInitialOrders());
   }, []);
 
-  const formatDate = (seconds) => {
-    // convert seconds to milliseconds and create a Date object
-    const date = new Date(seconds * 1000);
+  const formatDate = (timestamp) => {
+    let date = null;
+    if (timestamp.seconds) {
+      // convert seconds to milliseconds and create a Date object
+      date = new Date(timestamp.seconds * 1000);
+    } else {
+      date = new Date(timestamp);
+    }
     // add leading zero for single-digit days and months
     return `${date.getFullYear()}-${
       date.getMonth() + 1 < 10

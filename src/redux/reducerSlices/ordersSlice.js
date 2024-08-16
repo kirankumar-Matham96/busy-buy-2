@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { db } from "../../config/firestore.config";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, addDoc, query, where } from "firebase/firestore";
+import { authSelector } from "./authSlice";
 
 const INITIAL_STATE = {
   orders: [],
@@ -11,9 +12,16 @@ const INITIAL_STATE = {
 export const getInitialOrders = createAsyncThunk(
   "orders/getOrders",
   async (arg, thunkApi) => {
+    const state = thunkApi.getState();
+    const { currentUser } = authSelector(state);
     try {
       const orders = [];
-      const querySnapshot = await getDocs(collection(db, "orders"));
+      // const querySnapshot = await getDocs(collection(db, "orders"));
+      const q = query(
+        collection(db, "orders"),
+        where("userId", "==", currentUser.email)
+      );
+      const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
         orders.push({ id: doc.id, ...doc.data() });
       });
@@ -21,6 +29,23 @@ export const getInitialOrders = createAsyncThunk(
     } catch (error) {
       console.log(error);
       thunkApi.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const addOrder = createAsyncThunk(
+  "orders/addOrder",
+  async (newOrder, thunkApi) => {
+    console.log("In Order thunk");
+
+    try {
+      const docRef = collection(db, "orders");
+      await addDoc(docRef, newOrder);
+      console.log("Order added");
+      await thunkApi.dispatch(getInitialOrders()).unwrap();
+      console.log("Orders updated");
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
     }
   }
 );
@@ -36,9 +61,19 @@ const ordersSlice = createSlice({
       })
       .addCase(getInitialOrders.fulfilled, (state, action) => {
         state.loading = false;
-        state.orders = [...action.payload];
+        state.orders = action.payload && [...action.payload];
       })
       .addCase(getInitialOrders.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(addOrder.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(addOrder.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(addOrder.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       }),
