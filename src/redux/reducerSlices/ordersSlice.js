@@ -63,14 +63,11 @@ export const getInitialOrders = createAsyncThunk(
 export const addOrder = createAsyncThunk(
   "orders/addOrder",
   async (newOrder, thunkApi) => {
-    console.log("In Order thunk");
 
     try {
       const docRef = collection(db, "orders");
       await addDoc(docRef, newOrder);
-      console.log("Order added");
       await thunkApi.dispatch(getInitialOrders()).unwrap();
-      console.log("Orders updated");
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
     }

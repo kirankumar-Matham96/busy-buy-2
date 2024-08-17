@@ -21,7 +21,6 @@ export const Order = ({ order, formatDate }) => {
     <div className={orderStyles.orderContainer}>
       <h2 className={orderStyles.h3}>
         Ordered On:&nbsp;
-        {console.log({timestamp})}
         {timestamp && formatDate(timestamp)}
       </h2>
       <table className={orderStyles.table}>

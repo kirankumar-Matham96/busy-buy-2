@@ -3,6 +3,7 @@ import { authReducer } from "./reducerSlices/authSlice";
 import { itemReducer } from "./reducerSlices/itemsSlice";
 import { cartReducer } from "./reducerSlices/cartSlice";
 import { ordersReducer } from "./reducerSlices/ordersSlice";
+import { loggerMiddleware } from "./middlewares/loggerMiddleware";
 
 /**
  * Configures and creates the Redux store for the application.
@@ -14,7 +15,9 @@ import { ordersReducer } from "./reducerSlices/ordersSlice";
  * - `cartReducer`: Manages the state of the shopping cart, including items, total price, and loading/error states.
  * - `ordersReducer`: Manages the state of orders, including fetching and adding orders.
  *
- * @type {Store}
+ * The middleware includes logger function that logs message to console at every action.
+ *
+ * @type {store}
  */
 export const store = configureStore({
   reducer: {
@@ -23,4 +26,6 @@ export const store = configureStore({
     cartReducer,
     ordersReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(loggerMiddleware),
 });
