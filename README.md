@@ -2,7 +2,7 @@
 
 An easy-to-use online store where you can shop for various products. It is a modern e-commerce platform with various features aimed at providing a seamless shopping experience.
 
-[Live app](https://busy-buy-app-gamma.vercel.app/)
+[Live app](https://busy-buy-2.vercel.app/orders)
 
 ## Table of Contents
 
@@ -52,7 +52,7 @@ An easy-to-use online store where you can shop for various products. It is a mod
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/kirankumar-Matham96/busy-buy-app.git
+   git clone https://github.com/kirankumar-Matham96/busy-buy-2.git
 
    ```
 

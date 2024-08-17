@@ -54,7 +54,3 @@ tbody tr td:first-child {
 .totalPriceContainer {
   text-align: right;
 }
-.noOrdersMessage {
-  color: rgb(1, 138, 201);
-  margin-top: 3rem;
-}

@@ -68,12 +68,19 @@ export const Orders = () => {
 
   return (
     <div className={ordersStyles.container}>
-      <h1 className={ordersStyles.h1}>Your Orders</h1>
-      {loading ? (
-        <Loader />
+      {loading ? <Loader /> : null}
+      {orders && orders.length > 0 ? (
+        <>
+          <h1 className={ordersStyles.h1}>Your Orders</h1>
+          {orders.map((order) => (
+            <Order order={order} formatDate={formatDate} />
+          ))}
+        </>
       ) : (
-        orders &&
-        orders.map((order) => <Order order={order} formatDate={formatDate} />)
+        <div className={ordersStyles.emptyMessage}>
+          <h1>No Orders...</h1>
+          <h1>Order Some Now!</h1>
+        </div>
       )}
     </div>
   );
