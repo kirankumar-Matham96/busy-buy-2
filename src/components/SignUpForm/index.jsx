@@ -50,7 +50,7 @@ export const SignUpForm = () => {
 
   const submitHandle = (e) => {
     e.preventDefault();
-    const resp = dispatch(signup({ email, password }));
+    dispatch(signup({ email, password }));
     setSignUpAttempt(true);
   };
 

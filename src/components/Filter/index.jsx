@@ -42,7 +42,7 @@ export const Filter = () => {
     dispatch(setCategories(categoryFilters));
     dispatch(setMaxPrice(priceFilter));
     dispatch(filterResults());
-  }, [categoryFilters, priceFilter]);
+  }, [dispatch, categoryFilters, priceFilter]);
 
   /**
    * Handles category checkbox changes by adding or removing categories from the filter list.

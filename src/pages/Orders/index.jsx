@@ -29,11 +29,11 @@ import ordersStyles from "./index.module.css";
  */
 export const Orders = () => {
   const dispatch = useDispatch();
-  const { loading, error, orders } = useSelector(ordersSelector);
+  const { loading, orders } = useSelector(ordersSelector);
 
   useEffect(() => {
     dispatch(getInitialOrders());
-  }, []);
+  }, [dispatch]);
 
   /**
    * Formats a given timestamp into a `YYYY-MM-DD` string.

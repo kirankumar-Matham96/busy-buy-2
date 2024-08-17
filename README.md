@@ -1,3 +1,2 @@
-1. Styling completion
-2. Add Logger
-3. Readme
+1. Add Logger
+2. Readme

@@ -35,7 +35,7 @@ export const SearchBox = () => {
 
   useEffect(() => {
     dispatch(filterResults());
-  }, [searchQuery]);
+  }, [dispatch, searchQuery]);
 
   return (
     <div>

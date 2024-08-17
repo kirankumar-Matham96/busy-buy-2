@@ -28,6 +28,8 @@ import "./App.css";
  * @returns {JSX.Element} The main application layout, including routing, global components, and error handling.
  */
 function App() {
+  
+
   return (
     <Provider store={store}>
       <BrowserRouter>

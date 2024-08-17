@@ -36,7 +36,7 @@ export const Home = () => {
 
   useEffect(() => {
     dispatch(getInitialState());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className={homeStyles.bgContainer}>
