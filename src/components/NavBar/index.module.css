@@ -1,6 +1,5 @@
 .navContainer {
-  border: 1px solid red;
-  padding: 1rem 10rem 1rem;
+  padding: 0.5rem 10rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -8,8 +7,12 @@
   z-index: 100;
   background-color: white;
   width: 84%;
+  box-shadow: 0 10px 5px -5px #d1d1d1;
 }
 .navBrand {
+  color: red;
+  font-size: 1.3rem;
+  font-weight: 600;
 }
 .navLinks {
   display: flex;
@@ -19,12 +22,16 @@
   width: 35%;
 }
 .navLink {
+  color: #1d1d1d;
+  font-size: 1.1rem;
+  font-weight: 600;
   display: flex;
   align-items: center;
   width: 9rem;
+  cursor: pointer;
 }
 .navLink img {
-  width: 3rem;
+  width: 2.5rem;
   margin-right: 0.5rem;
 }
 

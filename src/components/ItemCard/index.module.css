@@ -1,18 +1,17 @@
 .cardContainer {
-  border: 1px solid red;
   padding: 2rem;
   display: flex;
   flex-direction: column;
+  box-shadow: 0 0 8px -1px #afaeae;
+  border-radius: 8px;
 }
 .image {
   width: 100%;
   margin: auto;
-  border: 1px solid green;
 }
 .description {
   font-size: 1.3rem;
   color: gray;
-  line-height: 0%;
 }
 .priceContainer {
   display: flex;
@@ -32,6 +31,7 @@
 }
 .btnImage {
   width: 1.5rem;
+  margin-left: 1.1rem;
 }
 
 .buttonsContainer > p {

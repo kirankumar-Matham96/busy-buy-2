@@ -2,9 +2,12 @@
   position: relative;
 }
 .purchaseOptionContainer {
-  border: 1px solid red;
   width: 14rem;
   position: fixed;
   top: 18rem;
   left: 0;
+}
+.emptyMessage{
+  text-align: center;
+  margin-top: 5%;
 }

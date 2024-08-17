@@ -1,7 +1,10 @@
 .searchBox {
   padding: 1.3rem 1.5rem;
-  border: 1px solid red;
+  border: 1px solid cyan;
   outline: none;
   border-radius: 10px;
   font-size: 1rem;
+  width: 30rem;
+  background-color: lightcyan;
+  
 }

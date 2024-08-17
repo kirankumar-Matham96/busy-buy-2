@@ -5,8 +5,7 @@
 }
 
 .searchContainer {
-  border: 1px solid green;
-  margin: 1rem auto;
+  margin: 0.5rem auto 2rem;
   width: 73vw;
   display: flex;
   justify-content: center;

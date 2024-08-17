@@ -7,6 +7,7 @@ import {
 } from "../../redux/reducerSlices/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Loader } from "../../components/Loader";
+import empty from "../../assets/empty.gif";
 import cartStyles from "./index.module.css";
 
 /**
@@ -49,7 +50,14 @@ export const Cart = () => {
         <PurchaseOption />
       </div>
       {loading ? <Loader /> : null}
-      <ItemsContainer isCart={true} items={cart} />
+      {cart.length > 0 ? (
+        <ItemsContainer isCart={true} items={cart} />
+      ) : (
+        <div className={cartStyles.emptyMessage}>
+          <h1>Add Some Items...</h1>
+          <img src={empty} alt="empty" />
+        </div>
+      )}
     </div>
   );
 };
