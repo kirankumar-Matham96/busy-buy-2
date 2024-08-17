@@ -7,6 +7,16 @@ import {
 } from "../../redux/reducerSlices/authSlice";
 import navStyles from "./index.module.css";
 import { useEffect } from "react";
+
+/**
+ * `NavBar` is a React functional component that renders a navigation bar.
+ * 
+ * The navigation bar displays links to various sections of the application (Home, My Orders, Cart) and provides a sign-in/sign-out option based on the authentication state of the user.
+ * 
+ * The component uses Redux to access authentication state and dispatch actions for signing out. It also uses a `useEffect` hook to observe changes in the authentication state.
+ * 
+ * @returns {JSX.Element} The rendered navigation bar with dynamic links and sign-in/sign-out options.
+ */
 export const NavBar = () => {
   const { currentUser } = useSelector(authSelector);
   const dispatch = useDispatch();

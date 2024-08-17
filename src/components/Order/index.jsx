@@ -1,6 +1,20 @@
 import React from "react";
 import orderStyles from "./index.module.css";
 
+/**
+ * `Order` is a React functional component that displays details of an order.
+ * 
+ * The component takes in an `order` object and a `formatDate` function as props. It renders the order's timestamp, a table with item details (including title, price, quantity, and total price for each item), and the overall total of the order.
+ * 
+ * @param {Object} props - The component props.
+ * @param {Object} props.order - The order object containing details of the order.
+ * @param {number} props.order.timestamp - The timestamp when the order was placed.
+ * @param {Array<Object>} props.order.items - An array of items in the order.
+ * @param {number} props.order.total - The total price of the order.
+ * @param {Function} props.formatDate - A function to format the timestamp into a readable date string.
+ * 
+ * @returns {JSX.Element} The rendered order details including a table of items and the total price.
+ */
 export const Order = ({ order, formatDate }) => {
   const { timestamp, items, total } = order;
   return (

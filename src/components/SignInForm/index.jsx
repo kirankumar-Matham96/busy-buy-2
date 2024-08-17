@@ -5,6 +5,31 @@ import { useDispatch, useSelector } from "react-redux";
 import { signin, authSelector } from "../../redux/reducerSlices/authSlice";
 import loginStyles from "./index.module.css";
 
+/**
+ * `SignInForm` is a React functional component that provides a sign-in form for users.
+ *
+ * The component uses local state to manage user input for email and password. It interacts with the Redux store to handle authentication and displays errors if any occur.
+ *
+ * - **State Management**:
+ *   - `email`: Local state for the user's email input.
+ *   - `password`: Local state for the user's password input.
+ * - **Hooks**:
+ *   - `useDispatch`: Provides access to the Redux `dispatch` function for dispatching the `signin` action.
+ *   - `useSelector`: Selects `loading`, `error`, and `currentUser` from the Redux store.
+ *   - `useNavigate`: Provides navigation capabilities to redirect the user upon successful sign-in.
+ * - **Effects**:
+ *   - `useEffect`: Redirects the user to the home page if a `currentUser` is present, indicating successful authentication.
+ * - **Event Handling**:
+ *   - `submitHandle`: Prevents the default form submission and dispatches the `signin` action with the email and password.
+ *
+ * The component renders:
+ * - A form with input fields for email and password.
+ * - A submit button styled with `Button` component.
+ * - A link to navigate to the sign-up page.
+ * - An error message if the `error` state is not empty.
+ *
+ * @returns {React.ReactElement} The JSX element containing the sign-in form and related UI components.
+ */
 export const SignInForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

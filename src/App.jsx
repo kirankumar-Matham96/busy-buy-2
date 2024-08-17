@@ -12,6 +12,21 @@ import { ProtectedRoutes } from "./components/ProtectedRoutes";
 import { Notification } from "./components/Notification";
 import "./App.css";
 
+/**
+ * The `App` component is the root component of the application, responsible for setting up routing and global state management.
+ *
+ * It provides the following key functionalities:
+ * - Wraps the entire application in a Redux `Provider` to make the Redux store available throughout the component tree.
+ * - Uses `BrowserRouter` from `react-router-dom` to handle routing within the application.
+ * - Renders the `NavBar` component, which is displayed on every page.
+ * - Sets up routing with the `Routes` component, defining the paths and corresponding components for different pages of the application.
+ * - Includes a `ProtectedRoutes` component to guard access to specific routes (such as the Cart and Orders pages) based on user authentication status.
+ * - Displays a `Notification` component, which provides feedback or alerts to users.
+ * - Uses the `ErrorPage` component as a fallback for any unmatched routes or error states.
+ *
+ * @component
+ * @returns {JSX.Element} The main application layout, including routing, global components, and error handling.
+ */
 function App() {
   return (
     <Provider store={store}>
